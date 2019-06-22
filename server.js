@@ -5,68 +5,35 @@ mongoose.Promise = global.Promise;
 const app = express();
 app.use(bodyParser.json());
 const path = require('path');
-// const {bar,order} = require('./model');
 const {PORT, DATABASE_URL} = require('./config');
-// const {ACCOUNT_SID, AUTH_TOKEN} = require('./secret');
-
-
-
-
-// const{DATABASE_URL,CLIENT_ID} = require('./secret')
-// if(DATABASE_URL === null ){
-//   DATABASE_URL = process.env.PORT
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'POST');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'POST');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
 });
+app.use('/static', express.static(path.join(__dirname, './public')))
 
 
 
-app.post('/textmsg', (req, res) => {
 
-  // email 
 
-  
+
+app.post('/textmsg', (req, res) => { 
  console.log('=================HIT==============')
 
  console.log(req.body.text)
  var string = req.body.text
- var dontlookhere = 'AC4334eb5e7984bfb826c66ce782578316'; 
- var randomnumber = 'fa7a4a8ab3761c09554af5fa8ac1e5e5'; 
+ var dontlookhere = 'AC930c602a19415f6adcfd5ea6b65e0aa1'; 
+ var randomnumber = '96a2c9af4af6f0ed07ba09cd9afc218b'; 
  
  //require the Twilio module and create a REST client 
  var client = require('twilio')(dontlookhere, randomnumber); 
  
   client.messages.create({ 
-      to: "+14085057277", 
-      from: "+18316099667", 
-      body: string , 
+      to: "+14086130163", 
+      from: "+15012088987", 
+      body: 'fuck toronto' , 
   }, function(err, message) { 
       console.log(message.sid); 
   }); 
@@ -77,18 +44,64 @@ app.post('/textmsg', (req, res) => {
 
 
 
+app.post('/voice', (req, res) => {
+console.log('=================VOICE HIT==============')
+var dontlookhere = 'AC930c602a19415f6adcfd5ea6b65e0aa1'; 
+var randomnumber = '96a2c9af4af6f0ed07ba09cd9afc218b'; 
+var client = require('twilio')(dontlookhere, randomnumber); 
+
+client.calls
+.create({
+   url: 'https://971efc7f.ngrok.io/static/twiml.xml',
+   to:  "+14086130163", 
+   from: '+16046703322'
+ })
+.then(call => console.log(call.sid));
+  res.status(200).json({msg: 'this is working'})
+
+})
+
+
+
+function sendmesg(){
+  var dontlookhere = 'AC930c602a19415f6adcfd5ea6b65e0aa1'; 
+  var randomnumber = '96a2c9af4af6f0ed07ba09cd9afc218b'; 
+  
+  //require the Twilio module and create a REST client 
+  var client = require('twilio')(dontlookhere, randomnumber); 
+  
+   client.messages.create({ 
+       to: "+17788818374", 
+       from: "+18625792333", 
+       body: 'hi friend , so toronto sucks' , 
+   }, function(err, message) { 
+       console.log(message.sid); 
+   }); 
+}
 
 
 
 
 
+// setInterval(()=>{
+//   console.log('sending mesg')
+//   // sendmesg()
+// },2000)
 
 
 
 
+var dontlookhere = 'AC930c602a19415f6adcfd5ea6b65e0aa1'; 
+var randomnumber = '96a2c9af4af6f0ed07ba09cd9afc218b'; 
+var client = require('twilio')(dontlookhere, randomnumber); 
 
-
-
+client.calls
+.create({
+   url: 'https://dry-brook-12935.herokuapp.com/static/twiml.xml',
+   to:  "+14086130163", 
+   from: '+16046703322'
+ })
+.then(call => console.log(call.sid));
 
 
 
